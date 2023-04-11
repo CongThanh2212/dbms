@@ -1,0 +1,135 @@
+.box.product-tab.box-product-tab {
+    width: 96%;
+    height: 450px;
+    margin: 2%;
+    background-color: var(--item-background-color);
+}
+
+.box.product-tab.box-product-set-name {
+    height: 10%;
+    float: left;
+}
+
+.box.product-tab.text-product-set-name {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: center;
+    padding-left: 20px;
+    color: var(--main-color);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.box.product-tab.box-product-set-info {
+    height: 75%;
+    display: flex;
+}
+
+.box.product-tab.box-product-info {
+    width: 18%;
+    display: inline-block;
+    margin: 0 1%;
+    position: relative;
+    top: 0;
+    transition: top ease 0.1s;
+}
+
+.box.product-tab.box-product-info:hover {
+    background-color: var(--hover-color);
+    top: -2px;
+}
+
+.box.product-tab.box-product-detail {
+    height: 90%;
+    cursor: pointer;
+}
+
+.box.product-tab.box-product-image {
+    height: 65%;
+}
+
+.box.product-tab.box-product-detail-text {
+    height: 35%;
+}
+
+.box.product-tab.box-product-name {
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    color: #000000;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.box.product-tab.box-product-price {
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--main-color);
+}
+
+.box.product-tab.box-product-sold {
+    height: fit-content;
+    background-color: #eda6a6;
+    border: 2px solid #eda6a6;
+    border-radius: 10px;
+}
+
+.box.product-tab.button-add-to-cart {
+    width: 80%;
+    height: 10%;
+    margin: auto;
+    color: var(--item-background-color);
+    border-color: var(--main-color);
+    background-color: var(--main-color);
+    position: relative;
+    top: 0;
+    transition: top ease-in-out 0.1s;
+}
+
+.box.product-tab.button-add-to-cart:hover {
+    width: 80%;
+    height: 10%;
+    color: var(--main-color);
+    border-color: var(--main-color);
+    background-color: var(--item-background-color);
+    top: -2px;
+}
+
+.box.product-tab.box-button-watch-more {
+    height: 10%;
+    margin-top: 1%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.box.product-tab.button-watch-more {
+    width: 20%;
+    height: 100%;
+    color: var(--main-color);
+    border-color: var(--main-color);
+    background-color: var(--item-background-color);
+}
+
+.box.product-tab.button-watch-more:hover {
+    width: 20%;
+    height: 100%;
+    color: var(--item-background-color);
+    border-color: var(--main-color);
+    background-color: var(--main-color);
+}
+
+.product-tab.popup.text {
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.product-tab.popup.button-text {
+    color: var(--main-color);
+}

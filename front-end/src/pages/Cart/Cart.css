@@ -1,0 +1,151 @@
+.box.cart.no-item {
+    width: 96%;
+    margin: 2%;
+}
+
+.box.cart.box-cart-info {
+    display: block;
+}
+
+.box.cart.box-list-product {
+    width: 66%;
+    height: fit-content;
+    display: inline-block;
+    margin: 2%;
+    font-size: 20px;
+    color: var(--main-color);
+}
+
+.box.cart.box-product-info {
+    height: 200px;
+    display: flex;
+    margin: 1% auto;
+}
+
+.box.cart.box-product-image {
+    width: 20%;
+}
+
+.box.cart.box-product-details {
+    width: 80%;
+    display: flex;
+}
+
+.box.cart.box-product-productInfo {
+    width: 35%;
+}
+
+.box.cart.box-product-productName {
+    height: 50%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: left;
+    color: #000000;
+    font-size: 20px !important;
+}
+
+.box.cart.box-product-price {
+    height: 50%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: left;
+    font-size: 20px !important;
+    font-weight: bold;
+    color: var(--main-color) !important;
+}
+
+.box.cart.box-quantity {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.box.cart.box-quantity-control {
+    width: 50%;
+    height: 20%;
+    margin: 0 auto;
+    display: flex;
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+    vertical-align: middle !important;
+}
+
+.box.cart.button-quantity-change {
+    width: 33%;
+    min-width: 33% !important;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--main-color);
+    border-radius: 5px;
+}
+
+.box.cart.button-quantity-change:hover {
+    background-color: var(--hover-color);
+}
+
+.box.cart.box-quantity-num {
+    width: 33%;
+    min-width: 33% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.box.cart.box-product-total {
+    width: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.box.cart.box-product-delete {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.box.cart.button-product-delete {
+    width: fit-content;
+    height: fit-content;
+    color: var(--main-color);
+}
+
+.box.cart.box-payment {
+    width: 26%;
+    display: inline-block;
+    vertical-align: top;
+    margin: 2% auto;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 2%;
+}
+
+.box.cart.box-total-payment {
+    height: 50%;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.box.cart.button-payment {
+    width: 70%;
+    height: 46%;
+    margin-top: 4%;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--item-background-color);
+    background-color: var(--main-color);
+}

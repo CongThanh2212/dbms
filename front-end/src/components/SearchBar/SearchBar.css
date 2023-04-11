@@ -1,0 +1,20 @@
+.Search {
+    border-style: solid;
+    border-color: var(--main-color);
+    border-width: 1px;
+}
+
+/* .Search:hover {
+    filter: brightness(80%);
+} */
+
+/* .SearchIconWrapper {
+} */
+
+.SearchIcon {
+    color: var(--main-color);
+}
+
+.StyledInputBase {
+    color: var(--main-color) !important;
+}

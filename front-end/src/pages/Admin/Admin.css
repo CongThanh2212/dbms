@@ -1,0 +1,97 @@
+#left,
+#middle,
+#right {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+.line {
+    display: block;
+}
+
+/*
+Table
+*/
+#address-list {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#address-list td,
+#address-list th {
+    border: 1px solid white;
+    padding: 8px;
+}
+
+#address-list tr:nth-child(even) {
+    background-color: lightgray;
+}
+
+#address-list tr:hover {
+    background-color: lightblue;
+}
+
+#address-list th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: green;
+    color: white;
+}
+
+table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border-bottom: 1px #dddddd solid;
+    text-align: left;
+    padding: 8px;
+}
+
+.striped:nth-child(even) {
+    background-color: #dddddd;
+}
+.hover:hover {
+    background-color: #61dafb;
+}
+
+.tableFooter {
+    background-color: #f1f1f1;
+    padding: 8px 0px;
+    width: 100%;
+    font-weight: 500;
+    text-align: left;
+    font-size: 16px;
+    color: #2c3e50;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button {
+    border: none;
+    padding: 7px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.activeButton {
+    color: white;
+    background: #185adb;
+}
+
+.inactiveButton {
+    color: #2c3e50;
+    background: #f9f9f9;
+}

@@ -1,0 +1,318 @@
+.box.payment.box-all-address {
+    width: 70%;
+    margin: 1% auto;
+}
+
+.box.payment.box-address-title {
+    height: 50;
+}
+
+.box.payment.text-address-title {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 10px;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.box.payment.box-address {
+    height: 70px;
+    display: flex;
+    margin-top: 1%;
+}
+
+.box.payment.box-checkbox {
+    width: 5%;
+}
+
+.box.payment.button-address-radio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    color: var(--main-color);
+}
+
+.box.payment.box-address-info {
+    width: 85%;
+}
+
+.box.payment.text-address-info {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 5px;
+    color: #000000;
+    font-size: 16px;
+}
+
+.box.payment.box-address-change {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.box.payment.button-address-edit {
+    width: fit-content;
+    height: fit-content;
+    color: var(--main-color);
+}
+
+.box.payment.button-address-delete {
+    width: fit-content;
+    height: fit-content;
+    color: var(--main-color);
+}
+
+.box.payment.box-all-ship {
+    width: 70%;
+    margin: 1% auto;
+}
+
+.box.payment.box-ship-title {
+    height: 50;
+}
+
+.box.payment.text-ship-title {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 10px;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.box.payment.box-ship {
+    height: 70px;
+    display: flex;
+    margin-top: 1%;
+}
+
+.box.payment.box-checkbox {
+    width: 5%;
+}
+
+.box.payment.button-ship-radio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    color: var(--main-color);
+}
+
+.box.payment.box-ship-info {
+    width: 85%;
+}
+
+.box.payment.text-ship-info {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 5px;
+    color: #000000;
+    font-size: 16px;
+}
+
+.box.payment.box-all-payment {
+    width: 70%;
+    margin: 1% auto;
+}
+
+.box.payment.box-payment-title {
+    height: 50;
+}
+
+.box.payment.text-payment-title {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 10px;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.box.payment.box-payment {
+    height: 70px;
+    display: flex;
+    margin-top: 1%;
+}
+
+.box.payment.box-checkbox {
+    width: 5%;
+}
+
+.box.payment.button-payment-radio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    color: var(--main-color);
+}
+
+.box.payment.box-payment-info {
+    width: 85%;
+}
+
+.box.payment.text-payment-info {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 5px;
+    color: #000000;
+    font-size: 16px;
+}
+
+.box.payment.box-all-order {
+    width: 70%;
+    margin: 1% auto;
+}
+
+.box.payment.box-order-title {
+    height: 50;
+}
+
+.box.payment.text-order-title {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    padding-left: 10px;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.box.payment.box-product-info {
+    height: 200px;
+    display: flex;
+    margin: 1% auto;
+}
+
+.box.payment.box-product-image {
+    width: 20%;
+}
+
+.box.payment.box-product-details {
+    width: 70%;
+    display: flex;
+}
+
+.box.payment.box-product-productInfo {
+    width: 30%;
+}
+
+.box.payment.box-product-productName {
+    height: 50%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: left;
+    color: #000000;
+    font-size: 20px !important;
+}
+
+.box.payment.box-product-price {
+    height: 50%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: left;
+    font-size: 20px !important;
+    font-weight: bold;
+    color: var(--main-color) !important;
+}
+
+.box.payment.box-quantity {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.box.payment.box-product-total {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.box.payment.box-order-detail {
+    height: 150px;
+    display: flex;
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0%;
+}
+
+.box.payment.box-order-cost {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.box.payment.text-order-cost {
+    width: fit-content;
+    height: fit-content;
+    margin-left: 2%;
+    font-size: 18px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.box.payment.box-order-confirm {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.box.payment.button-order-confirm {
+    width: fit-content;
+    height: fit-content;
+    margin-right: 2%;
+    font-size: 18px;
+    color: var(--item-background-color);
+    background-color: var(--main-color);
+}
+
+.popup.button-payment {
+    color: var(--main-color);
+}
+
+.popup.text {
+    color: #000000;
+    font-weight: bold;
+}

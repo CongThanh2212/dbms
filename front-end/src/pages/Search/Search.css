@@ -1,0 +1,17 @@
+.box.search.box-pagination {
+    display: flex;
+    margin-bottom: 1%;
+}
+
+.box.search.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.box.search.pagination-item {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--main-color);
+}

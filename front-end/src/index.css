@@ -1,0 +1,19 @@
+:root {
+    background-color: #f0f0f0;
+    --main-color: #c92127;
+    --item-background-color: #ffffff;
+    --hover-color: #ecdfdf;
+}
+
+.box {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}

@@ -1,0 +1,16 @@
+.sign-in.icon-locker {
+    background-color: var(--main-color) !important;
+}
+
+.sign-in.text-sign-in {
+    color: var(--main-color) !important;
+}
+
+.sign-in.button-sign-in {
+    background-color: var(--main-color) !important;
+}
+
+.sign-in.text-field {
+    color: var(--main-color) !important;
+    border-color: var(--main-color) !important;
+}

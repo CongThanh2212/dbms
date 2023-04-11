@@ -1,0 +1,16 @@
+.sign-up.icon-locker {
+    background-color: var(--main-color) !important;
+}
+
+.sign-up.text-sign-up {
+    color: var(--main-color) !important;
+}
+
+.sign-up.button-sign-up {
+    background-color: var(--main-color) !important;
+}
+
+.sign-up.text-field {
+    color: var(--main-color) !important;
+    border-color: var(--main-color) !important;
+}
