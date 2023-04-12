@@ -32,10 +32,27 @@ let getAllPayment = async () => {
 
 let addPayment = async (data) => {
     try {
-        let result = await Payment.create({
-            id: data.id,
-            type: data.type,
-        })
+        let result;
+        await sequelize.transaction(async (t) => {
+            await Payment.findOne({
+              order: [['id', 'DESC']],
+              limit: 1,
+              lock: true,
+              transaction: t,
+            });
+            result = await Payment.create(
+              {
+                id: data.id,
+                type: data.type
+              },
+              { transaction: t }
+            );
+        });
+
+        // let result = await Payment.create({
+        //     id: data.id,
+        //     type: data.type,
+        // })
         return result;
     }
     catch (e) {
@@ -48,16 +65,28 @@ let addPayment = async (data) => {
 
 let updatePayment = async (data) => {
     try {
-        let payment = await Payment.findOne({
-            where:
-                { id: data.id }
+        let payment;
+        await sequelize.transaction(async (t) => {
+            payment = await Payment.findOne({
+              where: { id: data.id },
+              lock: true,
+              transaction: t,
+            });
+            payment.id = data.id;
+            payment.type = data.type;
+            await payment.save({ transaction: t });
         });
 
-        payment.set({
-            id: data.id,
-            type: data.type
-        })
-        await payment.save();
+        // let payment = await Payment.findOne({
+        //     where:
+        //         { id: data.id }
+        // });
+
+        // payment.set({
+        //     id: data.id,
+        //     type: data.type
+        // })
+        // await payment.save();
         return payment;
     }
     catch (e) {
@@ -70,12 +99,21 @@ let updatePayment = async (data) => {
 
 let deletePayment = async (paymentId) => {
     try {
-        let payment = await Payment.findOne({
-            where: {
-                id: paymentId,
-            }
+        await sequelize.transaction(async (t) => {
+            const payment = await Payment.findOne({
+              where: { id: paymentId },
+              lock: true,
+              transaction: t,
+            });
+            await payment.destroy({ transaction: t });
         });
-        await payment.destroy();
+
+        // let payment = await Payment.findOne({
+        //     where: {
+        //         id: paymentId,
+        //     }
+        // });
+        // await payment.destroy();
         return data = {
             message: "Deleted",
         }

@@ -479,21 +479,49 @@ let updateProductAdmin = async(data) => {
 
 let addProduct = async (data) => {
     try {
-        let product = await Product.create({
-            id: data.id,
-            productName: data.productName,
-            price: data.price,
-            quantityInStock: data.quantityInStock,
-            description: data.description,
-            publishedYear: data.publishedYear,
-            productSize: data.productSize,
-            pageNumber: data.pageNumber,
-            soldNumber: data.soldNumber,
-            image: data.image,
-            authorId: id,
-            productSetId: data.productSetId,
-            providerId: data.providerId
-        })
+        let product;
+        await sequelize.transaction(async (t) => {
+            await Product.findOne({
+              order: [['id', 'DESC']],
+              limit: 1,
+              lock: true,
+              transaction: t,
+            });
+            product = await Product.create(
+              {
+                id: data.id,
+                productName: data.productName,
+                price: data.price,
+                quantityInStock: data.quantityInStock,
+                description: data.description,
+                publishedYear: data.publishedYear,
+                productSize: data.productSize,
+                pageNumber: data.pageNumber,
+                soldNumber: data.soldNumber,
+                image: data.image,
+                authorId: id,
+                productSetId: data.productSetId,
+                providerId: data.providerId
+              },
+              { transaction: t }
+            );
+        });
+
+        // let product = await Product.create({
+        //     id: data.id,
+        //     productName: data.productName,
+        //     price: data.price,
+        //     quantityInStock: data.quantityInStock,
+        //     description: data.description,
+        //     publishedYear: data.publishedYear,
+        //     productSize: data.productSize,
+        //     pageNumber: data.pageNumber,
+        //     soldNumber: data.soldNumber,
+        //     image: data.image,
+        //     authorId: id,
+        //     productSetId: data.productSetId,
+        //     providerId: data.providerId
+        // })
         return product;
     }
     catch (e) {
@@ -577,12 +605,21 @@ let updateProduct = async (data) => {
 
 let deleteProduct = async (productId) => {
     try {
-        let product = await Product.findOne({
-            where: {
-                id: productId,
-            }
+        await sequelize.transaction(async (t) => {
+            const product = await Product.findOne({
+              where: { id: productId },
+              lock: true,
+              transaction: t,
+            });
+            await product.destroy({ transaction: t });
         });
-        await product.destroy();
+
+        // let product = await Product.findOne({
+        //     where: {
+        //         id: productId,
+        //     }
+        // });
+        // await product.destroy();
 
         // sync data in elasticsearch
         client.deleteByQuery({

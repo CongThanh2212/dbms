@@ -32,10 +32,27 @@ let getAllProvider = async () => {
 
 let addProvider = async (data) => {
     try {
-        let provider = await Provider.create({
-            id: data.id,
-            name: data.name
-        })
+        let provider;
+        await sequelize.transaction(async (t) => {
+            await Provider.findOne({
+              order: [['id', 'DESC']],
+              limit: 1,
+              lock: true,
+              transaction: t,
+            });
+            provider = await Provider.create(
+              {
+                id: data.id,
+                name: data.name
+              },
+              { transaction: t }
+            );
+        });
+
+        // let provider = await Provider.create({
+        //     id: data.id,
+        //     name: data.name
+        // })
         return provider;
     }
     catch (e) {
@@ -48,16 +65,28 @@ let addProvider = async (data) => {
 
 let updateProvider = async (data) => {
     try {
-        let provider = await Provider.findOne({
-            where:
-                { id: data.id }
+        let provider;
+        await sequelize.transaction(async (t) => {
+            provider = await Provider.findOne({
+              where: { id: data.id },
+              lock: true,
+              transaction: t,
+            });
+            provider.id = data.id;
+            provider.name = data.name;
+            await provider.save({ transaction: t });
         });
 
-        provider.set({
-            id: data.id,
-            name: data.name
-        })
-        await provider.save();
+        // let provider = await Provider.findOne({
+        //     where:
+        //         { id: data.id }
+        // });
+
+        // provider.set({
+        //     id: data.id,
+        //     name: data.name
+        // })
+        // await provider.save();
         return provider;
     }
     catch (e) {
@@ -70,12 +99,21 @@ let updateProvider = async (data) => {
 
 let deleteProvider = async (providerId) => {
     try {
-        let provider = await Provider.findOne({
-            where: {
-                id: providerId,
-            }
+        await sequelize.transaction(async (t) => {
+            const provider = await Provider.findOne({
+              where: { id: providerId },
+              lock: true,
+              transaction: t,
+            });
+            await provider.destroy({ transaction: t });
         });
-        await provider.destroy();
+
+        // let provider = await Provider.findOne({
+        //     where: {
+        //         id: providerId,
+        //     }
+        // });
+        // await provider.destroy();
         return data = {
             message: "Deleted",
         }

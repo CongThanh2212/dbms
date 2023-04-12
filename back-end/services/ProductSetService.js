@@ -100,15 +100,37 @@ let getProducSetInfo = async () => {
 
 let addProductSet = async (data) => {
     try {
-        let result = await ProductSet.create({
-            id: data.id,
-            name: data.name,
-            description: data.description,
-            newestChap: data.newestChap,
-            image: data.image,
-            providerId: data.providerId,
-            authorId: data.authorId
-        })
+        let result;
+        await sequelize.transaction(async (t) => {
+            await ProductSet.findOne({
+              order: [['id', 'DESC']],
+              limit: 1,
+              lock: true,
+              transaction: t,
+            });
+            result = await ProductSet.create(
+              {
+                id: data.id,
+                name: data.name,
+                description: data.description,
+                newestChap: data.newestChap,
+                image: data.image,
+                providerId: data.providerId,
+                authorId: data.authorId
+              },
+              { transaction: t }
+            );
+        });
+
+        // let result = await ProductSet.create({
+        //     id: data.id,
+        //     name: data.name,
+        //     description: data.description,
+        //     newestChap: data.newestChap,
+        //     image: data.image,
+        //     providerId: data.providerId,
+        //     authorId: data.authorId
+        // })
         return result;
     }
     catch (e) {
@@ -136,15 +158,37 @@ let addProductSetByAdmin = async (data) => {
         let authorId = id[0].authorId;
         let providerId = id[0].providerId;
 
-        let result = await ProductSet.create({
-            id: data.id,
-            name: data.name,
-            description: data.description,
-            newestChap: data.newestChap,
-            image: data.image,
-            providerId: providerId,
-            authorId: authorId
-        })
+        let result;
+        await sequelize.transaction(async (t) => {
+            await ProductSet.findOne({
+              order: [['id', 'DESC']],
+              limit: 1,
+              lock: true,
+              transaction: t,
+            });
+            result = await ProductSet.create(
+              {
+                id: data.id,
+                name: data.name,
+                description: data.description,
+                newestChap: data.newestChap,
+                image: data.image,
+                providerId: providerId,
+                authorId: authorId
+              },
+              { transaction: t }
+            );
+        });
+
+        // let result = await ProductSet.create({
+        //     id: data.id,
+        //     name: data.name,
+        //     description: data.description,
+        //     newestChap: data.newestChap,
+        //     image: data.image,
+        //     providerId: providerId,
+        //     authorId: authorId
+        // })
 
         return result;
     } catch (e) {
@@ -171,24 +215,42 @@ let updateProductSetAdmin = async (data) => {
 
         let authorId = id[0].authorId;
         let providerId = id[0].providerId;
-        let productSet = await ProductSet.findOne(
-            {
-                where: {
-                    id: data.id
-                }
-            }
-        );
-        productSet.set({
-            id: data.id,
-            name: data.name,
-            description: data.description,
-            newestChap: parseInt(data.newestChap),
-            image: data.image,
-            providerId: (providerId ? providerId : productSet.providerId),
-            authorId: (authorId ? authorId : productSet.authorId)
+
+        let productSet;
+        await sequelize.transaction(async (t) => {
+            productSet = await ProductSet.findOne({
+              where: { id: data.id },
+              lock: true,
+              transaction: t,
+            });
+            productSet.id = data.id;
+            productSet.name = data.name;
+            productSet.description = data.description;
+            productSet.newestChap = parseInt(data.newestChap);
+            productSet.image = data.image;
+            productSet.providerId = (providerId ? providerId : productSet.providerId);
+            productSet.authorId = (authorId ? authorId : productSet.authorId);
+            await productSet.save({ transaction: t });
         });
 
-        productSet.save();
+        // let productSet = await ProductSet.findOne(
+        //     {
+        //         where: {
+        //             id: data.id
+        //         }
+        //     }
+        // );
+        // productSet.set({
+        //     id: data.id,
+        //     name: data.name,
+        //     description: data.description,
+        //     newestChap: parseInt(data.newestChap),
+        //     image: data.image,
+        //     providerId: (providerId ? providerId : productSet.providerId),
+        //     authorId: (authorId ? authorId : productSet.authorId)
+        // });
+
+        // productSet.save();
         return productSet;
     }
     catch (e) {
@@ -201,20 +263,37 @@ let updateProductSetAdmin = async (data) => {
 
 let updateProductSet = async (data) => {
     try {
-        let productSet = await ProductSet.findOne({
-            where:
-                { id: data.id }
+        let productSet;
+        await sequelize.transaction(async (t) => {
+            productSet = await ProductSet.findOne({
+              where: { id: data.id },
+              lock: true,
+              transaction: t,
+            });
+            productSet.id = data.id;
+            productSet.name = data.name;
+            productSet.description = data.description;
+            productSet.newestChap = data.newestChap;
+            productSet.image = data.image;
+            productSet.providerId = data.providerId;
+            productSet.authorId = data.authorId;
+            await productSet.save({ transaction: t });
         });
-        productSet.set({
-            id: data.id,
-            name: data.name,
-            description: data.description,
-            newestChap: data.newestChap,
-            image: data.image,
-            providerId: data.providerId,
-            authorId: data.authorId
-        })
-        await productSet.save();
+
+        // let productSet = await ProductSet.findOne({
+        //     where:
+        //         { id: data.id }
+        // });
+        // productSet.set({
+        //     id: data.id,
+        //     name: data.name,
+        //     description: data.description,
+        //     newestChap: data.newestChap,
+        //     image: data.image,
+        //     providerId: data.providerId,
+        //     authorId: data.authorId
+        // })
+        // await productSet.save();
         return productSet;
     }
     catch (e) {
@@ -227,12 +306,21 @@ let updateProductSet = async (data) => {
 
 let deleteProductSet = async (productSetId) => {
     try {
-        let productSet = await ProductSet.findOne({
-            where: {
-                id: productSetId,
-            }
+        await sequelize.transaction(async (t) => {
+            const productSet = await ProductSet.findOne({
+              where: { id: productSetId },
+              lock: true,
+              transaction: t,
+            });
+            await productSet.destroy({ transaction: t });
         });
-        await productSet.destroy();
+
+        // let productSet = await ProductSet.findOne({
+        //     where: {
+        //         id: productSetId,
+        //     }
+        // });
+        // await productSet.destroy();
         return data = {
             message: "Deleted",
         }

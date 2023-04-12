@@ -121,16 +121,35 @@ let addOrder = async (data) => {
 
 let updateOrderStatus = async (orderId) => {
     try {
-        let order = await Order.findOne({
-            where: {
-                id: orderId
+        // let order = await Order.findOne({
+        //     where: {
+        //         id: orderId
+        //     }
+        // });
+        // if (order.paidStatus == 1) {
+        //     return temp = {
+        //         message: "Đã xác nhận"
+        //     }
+        // }
+
+        let order;
+        await sequelize.transaction(async (t) => {
+            order = await Order.findOne({
+              where: { id: orderId },
+              lock: true,
+              transaction: t,
+            });
+            if (order.paidStatus == 1) {
+                return temp = {
+                    message: "Đã xác nhận"
+                }
+            } else {
+                order.detail = "Đơn hàng đã được thanh toán";
+                order.paidAt = localDate();
+                order.paidStatus = 1;
             }
+            await order.save({ transaction: t });
         });
-        if (order.paidStatus == 1) {
-            return temp = {
-                message: "Đã xác nhận"
-            }
-        }
         order.set({
             detail: "Đơn hàng đã được thanh toán",
             paidAt: localDate(),
@@ -148,16 +167,28 @@ let updateOrderStatus = async (orderId) => {
 
 let updateOrderAdmin =  async(orderCode, data) => {
     try {
-        let order = await Order.findOne({
-            where: {
-                orderCode: orderCode
-            }
+        let order;
+        await sequelize.transaction(async (t) => {
+            order = await Order.findOne({
+              where: { orderCode: orderCode },
+              lock: true,
+              transaction: t,
+            });
+            order.detail = data.detail;
+            order.paidAt = data.paidAt;
+            await order.save({ transaction: t });
         });
-        order.set({
-            detail: data.detail,
-            paidAt: data.paidAt
-        })
-        order.save();
+
+        // let order = await Order.findOne({
+        //     where: {
+        //         orderCode: orderCode
+        //     }
+        // });
+        // order.set({
+        //     detail: data.detail,
+        //     paidAt: data.paidAt
+        // })
+        // order.save();
         return order;
     } catch (e) {
         return e.name;
@@ -167,15 +198,26 @@ let updateOrderAdmin =  async(orderCode, data) => {
 
 let QRPaymentConfirm = async (orderId) => {
     try {
-        let result = await Order.findOne({
-            where: {
-                id: orderId
-            }
-        })
-        result.set({
-            detail: "Thông tin thanh toán đang chờ được xác nhận"
+        let result;
+        await sequelize.transaction(async (t) => {
+            result = await Order.findOne({
+              where: { id: orderId },
+              lock: true,
+              transaction: t,
+            });
+            result.detail = "Thông tin thanh toán đang chờ được xác nhận";
+            await result.save({ transaction: t });
         });
-        result.save();
+
+        // let result = await Order.findOne({
+        //     where: {
+        //         id: orderId
+        //     }
+        // })
+        // result.set({
+        //     detail: "Thông tin thanh toán đang chờ được xác nhận"
+        // });
+        // result.save();
         return result;
     }
     catch (e) {
@@ -188,12 +230,21 @@ let QRPaymentConfirm = async (orderId) => {
 
 let deleteOrder = async (orderId) => {
     try {
-        let order = await Order.findOne({
-            where: {
-                id: orderId,
-            }
+        await sequelize.transaction(async (t) => {
+            const order = await Order.findOne({
+              where: { id: orderId },
+              lock: true,
+              transaction: t,
+            });
+            await order.destroy({ transaction: t });
         });
-        await order.destroy();
+
+        // let order = await Order.findOne({
+        //     where: {
+        //         id: orderId,
+        //     }
+        // });
+        // await order.destroy();
         return data = {
             message: "Deleted",
         }

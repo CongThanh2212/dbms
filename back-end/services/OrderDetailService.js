@@ -69,6 +69,7 @@ let addOrderDetail = async (data) => {
                 orderId: data[0].id,
                 productId: data[i].productId,
             });
+
             let product = await Products.findOne({
                 where: {
                     id: data[i].productId
@@ -124,12 +125,21 @@ let getOrderDetailByOrderId = async (orderId) => {
 
 let deleteOrderDetail = async (orderDetailId) => {
     try {
-        let orderDetail = await OrderDetail.findOne({
-            where: {
-                id: orderDetailId,
-            }
+        await sequelize.transaction(async (t) => {
+            const orderDetail = await OrderDetail.findOne({
+              where: { id: orderDetailId },
+              lock: true,
+              transaction: t,
+            });
+            await orderDetail.destroy({ transaction: t });
         });
-        await orderDetail.destroy();
+
+        // let orderDetail = await OrderDetail.findOne({
+        //     where: {
+        //         id: orderDetailId,
+        //     }
+        // });
+        // await orderDetail.destroy();
         return data = {
             message: "Deleted",
         }

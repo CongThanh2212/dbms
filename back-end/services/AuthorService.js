@@ -32,10 +32,27 @@ let getAllAuthor = async () => {
 
 let addAuthor = async (data) => {
     try {
-        let result = await Author.create({
-            id: data.id,
-            name: data.name,
-        })
+        let result;
+        await sequelize.transaction(async (t) => {
+            await Author.findOne({
+              order: [['id', 'DESC']],
+              limit: 1,
+              lock: true,
+              transaction: t,
+            });
+            result = await Author.create(
+              {
+                id: data.id,
+                name: data.name
+              },
+              { transaction: t }
+            );
+        });
+        
+        // let result = await Author.create({
+        //     id: data.id,
+        //     name: data.name,
+        // })
         return result;
     }
     catch (e) {
@@ -48,16 +65,28 @@ let addAuthor = async (data) => {
 
 let updateAuthor = async (data) => {
     try {
-        let author = await Author.findOne({
-            where:
-                { id: data.id }
+        let author;
+        await sequelize.transaction(async (t) => {
+            author = await Author.findOne({
+              where: { id: data.id },
+              lock: true,
+              transaction: t,
+            });
+            author.id = data.id;
+            author.name = data.name;
+            await author.save({ transaction: t });
         });
+        
+        // let author = await Author.findOne({
+        //     where:
+        //         { id: data.id }
+        // });
 
-        user.set({
-            id: data.id,
-            name: data.name,
-        })
-        await author.save();
+        // user.set({
+        //     id: data.id,
+        //     name: data.name,
+        // })
+        // await author.save();
         return author;
     }
     catch (e) {
@@ -70,12 +99,21 @@ let updateAuthor = async (data) => {
 
 let deleteAuthor = async (authorId) => {
     try {
-        let author = await Author.findOne({
-            where: {
-                id: authorId,
-            }
+        await sequelize.transaction(async (t) => {
+            const author = await Author.findOne({
+              where: { id: authorId },
+              lock: true,
+              transaction: t,
+            });
+            await author.destroy({ transaction: t });
         });
-        await author.destroy();
+
+        // let author = await Author.findOne({
+        //     where: {
+        //         id: authorId,
+        //     }
+        // });
+        // await author.destroy();
         return data = {
             message: "Deleted",
         }

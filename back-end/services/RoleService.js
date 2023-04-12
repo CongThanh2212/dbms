@@ -32,11 +32,29 @@ let getAllRole = async () => {
 
 let addRole = async (data) => {
     try {
-        let result = await Role.create({
-            id: data.id,
-            name: data.name,
-            description: data.description,
-        })
+        let result;
+        await sequelize.transaction(async (t) => {
+            await Role.findOne({
+              order: [['id', 'DESC']],
+              limit: 1,
+              lock: true,
+              transaction: t,
+            });
+            result = await Role.create(
+              {
+                id: data.id,
+                name: data.name,
+                description: data.description
+              },
+              { transaction: t }
+            );
+        });
+
+        // let result = await Role.create({
+        //     id: data.id,
+        //     name: data.name,
+        //     description: data.description,
+        // })
         return result;
     }
     catch (e) {
@@ -49,17 +67,30 @@ let addRole = async (data) => {
 
 let updateRole = async (data) => {
     try {
-        let role = await Role.findOne({
-            where:
-                { id: data.id }
+        let role;
+        await sequelize.transaction(async (t) => {
+            role = await Role.findOne({
+              where: { id: data.id },
+              lock: true,
+              transaction: t,
+            });
+            role.id = data.id;
+            role.name = data.name;
+            role.description = data.description;
+            await role.save({ transaction: t });
         });
 
-        role.set({
-            id: data.id,
-            name: data.name,
-            description: data.description,
-        })
-        await role.save();
+        // let role = await Role.findOne({
+        //     where:
+        //         { id: data.id }
+        // });
+
+        // role.set({
+        //     id: data.id,
+        //     name: data.name,
+        //     description: data.description,
+        // })
+        // await role.save();
         return role;
     }
     catch (e) {
@@ -72,12 +103,21 @@ let updateRole = async (data) => {
 
 let deleteRole = async (roleId) => {
     try {
-        let role = await Role.findOne({
-            where: {
-                id: roleId,
-            }
+        await sequelize.transaction(async (t) => {
+            const role = await Role.findOne({
+              where: { id: roleId },
+              lock: true,
+              transaction: t,
+            });
+            await role.destroy({ transaction: t });
         });
-        await role.destroy();
+
+        // let role = await Role.findOne({
+        //     where: {
+        //         id: roleId,
+        //     }
+        // });
+        // await role.destroy();
         return data = {
             message: "Deleted",
         }

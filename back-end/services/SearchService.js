@@ -94,7 +94,8 @@ let getSearchResult = async(keyword, page, size) => {
                       fields: ["productName"],
                       fuzziness: 2
                     }
-                }
+                },
+                size: 10000
             }
         });
         if (response.hits.total.value == 0) return;
@@ -111,7 +112,6 @@ let getSearchResult = async(keyword, page, size) => {
             if (i < data.length - 1) sqlQuery += "OR ";
         }
         sqlQuery += "ORDER BY p.createdAt DESC";
-        console.log(sqlQuery);
         let result = await sequelize.query(sqlQuery);
         result = result[0];
         if (page != null) {

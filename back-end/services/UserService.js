@@ -102,16 +102,39 @@ let getAllUser = async () => {
 
 let addUser = async (data) => {
     try {
-        let user = await User.create({
-            id: data.id,
-            username: data.username,
-            password: data.password,
-            firstname: data.firstname,
-            email: data.email,
-            lastname: data.lastname,
-            address: data.address,
-            phone: data.phone,
-        })
+        let user;
+        await sequelize.transaction(async (t) => {
+            await User.findOne({
+              order: [['id', 'DESC']],
+              limit: 1,
+              lock: true,
+              transaction: t,
+            });
+            user = await User.create(
+              {
+                id: data.id,
+                username: data.username,
+                password: data.password,
+                firstname: data.firstname,
+                email: data.email,
+                lastname: data.lastname,
+                address: data.address,
+                phone: data.phone
+              },
+              { transaction: t }
+            );
+        });
+
+        // let user = await User.create({
+        //     id: data.id,
+        //     username: data.username,
+        //     password: data.password,
+        //     firstname: data.firstname,
+        //     email: data.email,
+        //     lastname: data.lastname,
+        //     address: data.address,
+        //     phone: data.phone,
+        // })
         return user;
     }
     catch (e) {
@@ -124,22 +147,40 @@ let addUser = async (data) => {
 
 let updateUser = async (data) => {
     try {
-        let user = await User.findOne({
-            where:
-                { id: data.id }
+        let user;
+        await sequelize.transaction(async (t) => {
+            user = await User.findOne({
+              where: { id: data.id },
+              lock: true,
+              transaction: t,
+            });
+            user.id = data.id;
+            user.username = (data.username ? data.username : user.username);
+            user.password = (data.password ? data.password : user.password);
+            user.firstname = data.firstname;
+            user.lastname = data.lastname;
+            user.address = data.address;
+            user.phone = data.phone;
+            user.email = data.email;
+            await user.save({ transaction: t });
         });
 
-        user.set({
-            id: data.id,
-            username: (data.username ? data.username : user.username),
-            password: (data.password ? data.password : user.password),
-            firstname: data.firstname,
-            lastname: data.lastname,
-            address: data.address,
-            phone: data.phone,
-            email: data.email,
-        })
-        await user.save();
+        // let user = await User.findOne({
+        //     where:
+        //         { id: data.id }
+        // });
+
+        // user.set({
+        //     id: data.id,
+        //     username: (data.username ? data.username : user.username),
+        //     password: (data.password ? data.password : user.password),
+        //     firstname: data.firstname,
+        //     lastname: data.lastname,
+        //     address: data.address,
+        //     phone: data.phone,
+        //     email: data.email,
+        // })
+        // await user.save();
         return user;
     }
     catch (e) {
@@ -152,12 +193,21 @@ let updateUser = async (data) => {
 
 let deleteUser = async (userId) => {
     try {
-        let user = await User.findOne({
-            where: {
-                id: userId,
-            }
+        await sequelize.transaction(async (t) => {
+            const user = await User.findOne({
+              where: { id: userId },
+              lock: true,
+              transaction: t,
+            });
+            await user.destroy({ transaction: t });
         });
-        await user.destroy();
+
+        // let user = await User.findOne({
+        //     where: {
+        //         id: userId,
+        //     }
+        // });
+        // await user.destroy();
         return data = {
             message: "Deleted",
         }

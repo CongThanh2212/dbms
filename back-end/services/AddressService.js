@@ -48,14 +48,34 @@ let getAllAddress = async () => {
 
 let addAddress = async (data) => {
     try {
-        let result = await Address.create({
-            id: data.id,
-            province: data.province,
-            district: data.district,
-            street: data.street,
-            homeAddress: data.homeAddress,
-            userId: data.userId
-        })
+        let result;
+        await sequelize.transaction(async (t) => {
+            await Address.findOne({
+              order: [['id', 'DESC']],
+              limit: 1,
+              lock: true,
+              transaction: t,
+            });
+            result = await Address.create(
+              {
+                id: data.id,
+                province: data.province,
+                district: data.district,
+                street: data.street,
+                homeAddress: data.homeAddress,
+                userId: data.userId
+              },
+              { transaction: t }
+            );
+        });
+        // let result = await Address.create({
+        //     id: data.id,
+        //     province: data.province,
+        //     district: data.district,
+        //     street: data.street,
+        //     homeAddress: data.homeAddress,
+        //     userId: data.userId
+        // })
         return result;
     }
     catch (e) {
@@ -68,18 +88,31 @@ let addAddress = async (data) => {
 
 let updateAddress = async (data) => {
     try {
-        let address = await Address.findOne({
-            where:
-                { id: data.id }
+        let address;
+        await sequelize.transaction(async (t) => {
+            address = await Address.findOne({
+              where: { id: data.id },
+              lock: true,
+              transaction: t,
+            });
+            address.province = data.province;
+            address.district = data.district;
+            address.street = data.street;
+            address.homeAddress = data.homeAddress;
+            await address.save({ transaction: t });
         });
-        user.set({
-            id: data.id,
-            province: data.province,
-            district: data.district,
-            street: data.street,
-            homeAddress: data.homeAddress
-        })
-        await address.save();
+        // let address = await Address.findOne({
+        //     where:
+        //         { id: data.id }
+        // });
+        // user.set({
+        //     id: data.id,
+        //     province: data.province,
+        //     district: data.district,
+        //     street: data.street,
+        //     homeAddress: data.homeAddress
+        // })
+        // await address.save();
         return address;
     }
     catch (e) {
@@ -92,12 +125,21 @@ let updateAddress = async (data) => {
 
 let deleteAddress = async (addressId) => {
     try {
-        let address = await Address.findOne({
-            where: {
-                id: addressId,
-            }
+        await sequelize.transaction(async (t) => {
+            const address = await Address.findOne({
+              where: { id: addressId },
+              lock: true,
+              transaction: t,
+            });
+            await address.destroy({ transaction: t });
         });
-        await address.destroy();
+
+        // let address = await Address.findOne({
+        //     where: {
+        //         id: addressId,
+        //     }
+        // });
+        // await address.destroy();
         return data = {
             message: "Deleted",
         }
