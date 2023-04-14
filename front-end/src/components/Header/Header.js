@@ -10,6 +10,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AddIcon from '@mui/icons-material/Add';
 import Menu from "../Menu/Menu";
 import SearchBar from "../SearchBar/SearchBar";
 import "./Header.css";
@@ -17,11 +18,16 @@ import "./Header.css";
 export default function Header() {
     const navigate = useNavigate();
     const [auth, setAuth] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     useEffect(() => {
         handleLogin();
     }, []);
     const handleLogin = async () => {
         let token = sessionStorage.getItem("userId");
+        let isAdminLogin =  sessionStorage.getItem("admin");
+        if (isAdminLogin == "true") {
+            setIsAdmin(true);
+        }
         if (token) {
             setAuth(true);
         } else {
@@ -31,6 +37,10 @@ export default function Header() {
     const handleUser = async () => {
         let userId = sessionStorage.getItem("userId");
         let path = "/user";
+        navigate(path);
+    };
+    const handleAddData = async () => {
+        let path = "/add";
         navigate(path);
     };
     const handleSignOut = async () => {
@@ -65,7 +75,6 @@ export default function Header() {
                     >
                         <ShoppingCartIcon />
                     </IconButton>
-
                     {!auth && (
                         <div>
                             <Button
@@ -78,6 +87,19 @@ export default function Header() {
                     )}
                     {auth && (
                         <div>
+                            {isAdmin &&  (
+                                <IconButton
+                                className="AccountCircle"
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleAddData}
+                                color="inherit"
+                            >
+                                <AddIcon />
+                            </IconButton>
+                            )}
                             <IconButton
                                 className="AccountCircle"
                                 size="large"

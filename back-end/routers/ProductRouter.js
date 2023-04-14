@@ -11,6 +11,7 @@ router.get("/by-set/:productSetId", productController.getProductByProductSet);
 router.get("/by-provider/:providerId", productController.getProductByAuthor);
 router.get("/get-by-sold/sort", productController.getProductBySoldNumber);
 router.get("/admin/info", productController.getProductInfo);
+router.post("/upload", productController.uploadData);
 router.post("/admin/add", productController.addProductAdmin);
 router.post("/add", productController.addProduct);
 router.put("/admin/update", productController.updateProductAdmin);

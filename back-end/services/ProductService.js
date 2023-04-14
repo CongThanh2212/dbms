@@ -36,6 +36,14 @@ let getProductById = async (productId) => {
     }
 }
 
+let uploadData = async function (data) {
+    console.log(data.length);
+    for (var i = 0; i < data.length; i++) {
+        let currentData = data[i];
+        //console.log(currentData.productName);
+    }
+}
+
 let getAllProductByCreatedTime = async function (page, size) {
     try {
         let result = await sequelize.query(
@@ -659,4 +667,5 @@ module.exports = {
     updateProductAdmin: updateProductAdmin,
     updateProduct: updateProduct,
     deleteProduct: deleteProduct,
+    uploadData: uploadData
 }

@@ -7,6 +7,12 @@ const getAllProduct = async (req, res) => {
     res.send(result);
 }
 
+const uploadData = async (req, res) => {
+    let data = req.body;
+    const result = await productService.uploadData(data);
+    res.send(result);
+}
+
 const getProductById = async (req, res) => {
     let productId = req.params.productId;
     const result = await productService.getProductById(productId);
@@ -99,4 +105,5 @@ module.exports = {
     updateProductAdmin: updateProductAdmin,
     updateProduct: updateProduct,
     deleteProduct: deleteProduct,
+    uploadData: uploadData,
 }

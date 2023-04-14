@@ -46,6 +46,7 @@ export default function App() {
                     path="/payment"
                     element={<PrivateRoute type={"payment"} />}
                 />
+                <Route path="/add" element={<PrivateRoute type={"add"} />} />
                 <Route path="/user" element={<PrivateRoute type={"user"} />} />
                 <Route
                     path="/order-detail"

@@ -5,8 +5,17 @@ import AdminInfo from "../../pages/Admin/Admin";
 import OrderDetail from "../../pages/OrderDetail/OrderDetail";
 import Cart from "../../pages/Cart/Cart";
 import Payment from "../../pages/Payment/Payment";
+import AddData from "../../pages/AddData/AddData";
 
 export default function PrivateRoute({ type = null }) {
+    if (type === "add") {
+        const auth = sessionStorage.getItem("userId");
+        if (auth) {
+            let admin = sessionStorage.getItem("admin");
+            return admin === "true" ? <AddData /> : <Navigate to="/sign-in" />;
+        }
+        return <Navigate to="/sign-in" />;
+    }
     if (type === "user") {
         const auth = sessionStorage.getItem("userId");
         if (auth) {
