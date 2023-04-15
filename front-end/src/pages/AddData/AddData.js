@@ -2,6 +2,10 @@ import { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import Header from '../../components/Header/Header';
 import "./AddData.css"
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
 const XLSX = require('xlsx');
 
 async function readExcelFile(file) {
@@ -39,6 +43,8 @@ async function uploadData(credentials) {
 }
     function FileUpload() {
     const [selectedFile, setSelectedFile] = useState(null);
+    const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
 
     const handleFileSelect = async (event) => {
         setSelectedFile(event.target.files[0]);
@@ -49,13 +55,21 @@ async function uploadData(credentials) {
           try {
             const jsonData = await readExcelFile(selectedFile);
             let response = await uploadData(jsonData);
+            if (response.message == "Success") {
+              setOpen1(true);
+            }
           } catch (error) {
-            console.log(error);
+            setOpen2(true);
           }
         }
       };
-      
 
+    const handleClose1 = () => {
+        setOpen1(false);
+    };
+    const handleClose2 = () => {
+      setOpen2(false);
+  };
   return (
         <Box className="box">
         <Header />
@@ -70,6 +84,34 @@ async function uploadData(credentials) {
             Upload
             </Button>
         </Box>
+        <Dialog
+            className="product-grid popup box"
+            open={open1}
+            onClose={handleClose1}
+        >
+            <DialogContent>
+                <DialogContentText className="product-grid popup text">
+                    ĐÃ TẢI DỮ LIỆU THÀNH CÔNG
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose1}>ĐÓNG</Button>
+            </DialogActions>
+        </Dialog>
+        <Dialog
+            className="product-grid popup box"
+            open={open2}
+            onClose={handleClose2}
+        >
+            <DialogContent>
+                <DialogContentText className="product-grid popup text">
+                    LỖI KHI TẢI DỮ LIỆU
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose2}>ĐÓNG</Button>
+            </DialogActions>
+        </Dialog>
         </Box>
   );
 }

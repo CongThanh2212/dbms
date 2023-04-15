@@ -111,7 +111,9 @@ let uploadData = async function (data) {
                 }
             }
         });
-        return;
+        return temp = {
+            message: "Success"
+        };
     } catch (error) {
         return temp = {
             error: error.name,
