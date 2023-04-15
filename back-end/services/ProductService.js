@@ -37,10 +37,87 @@ let getProductById = async (productId) => {
 }
 
 let uploadData = async function (data) {
-    console.log(data.length);
-    for (var i = 0; i < data.length; i++) {
-        let currentData = data[i];
-        //console.log(currentData.productName);
+    try {
+        await sequelize.transaction(async (t) => {
+            await Product.findOne({
+              order: [['id', 'DESC']],
+              limit: 1,
+              lock: true,
+              transaction: t,
+            });
+            await ProductCategories.findOne({
+                order: [['id', 'DESC']],
+                limit: 1,
+                lock: true,
+                transaction: t,
+            });
+            for (var i = 0; i < data.length; i++) {
+                let pr = data[i];
+                // Add product table
+                let findPr = await Product.findOne({
+                    where: {
+                        productName: pr.productName
+                    },
+                    transaction: t,
+                });
+                if (findPr) continue;
+                let product = await Product.create(
+                    {
+                        productName: pr.productName,
+                        price: pr.price,
+                        quantityInStock: pr.quantityInStock,
+                        description: pr.description,
+                        publishedYear: pr.publishedYear,
+                        productSize: pr.productSize,
+                        pageNumber: pr.pageNumber,
+                        image: pr.image,
+                        authorId: pr.authorId,
+                        productsetId: pr.setId,
+                        providerId: pr.providerId
+                    },
+                    { transaction: t }
+                );
+                // Add elasticsearch
+                await client.index(
+                    {
+                        index: 'book_search',
+                        body: {
+                            productName: pr.productName,
+                            id: product.id,
+                        }
+                    },
+                    {transaction: t}
+                );
+    
+                // Add product_category table
+                console.log(pr.categories);
+                let listCategory = pr.categories.split("-");
+                
+                for (var j = 0; j < listCategory.length; j++) {
+                    let findPrCategory = await ProductCategories.findOne({
+                        where: {
+                            productId: product.id,
+                            categoryId: listCategory[j]
+                        },
+                        transaction: t,
+                    });
+                    if (findPrCategory) continue;
+                    await ProductCategories.create(
+                        {
+                            productId: product.id,
+                            categoryId: listCategory[j]
+                        },
+                        {transaction: t}
+                    );
+                }
+            }
+        });
+        return;
+    } catch (error) {
+        return temp = {
+            error: error.name,
+            message: "Error"
+        };
     }
 }
 
