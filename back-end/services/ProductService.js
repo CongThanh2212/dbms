@@ -46,7 +46,7 @@ let uploadData = async function (data) {
               transaction: t,
             });
             await ProductCategories.findOne({
-                order: [['id', 'DESC']],
+                order: [['productId', 'DESC'], ['categoryId', 'DESC']],
                 limit: 1,
                 lock: true,
                 transaction: t,
@@ -90,7 +90,6 @@ let uploadData = async function (data) {
                 );
     
                 // Add product_category table
-                console.log(pr.categories);
                 let listCategory = pr.categories.split("-");
                 
                 for (var j = 0; j < listCategory.length; j++) {
