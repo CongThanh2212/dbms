@@ -148,13 +148,13 @@ export default function SignIn() {
                                         xs={6}
                                         sx={{ textAlign: "right" }}
                                     >
-                                        <Link
+                                        {/* <Link
                                             className="sign-in text-sign-in"
                                             href="/"
                                             variant="body2"
                                         >
                                             {"Quên mật khẩu?"}
-                                        </Link>
+                                        </Link> */}
                                     </Grid>
                                 </Grid>
                             </Box>
